@@ -1,6 +1,7 @@
 'use strict';
 
-var GitHubStrategy = require('passport-github').Strategy;
+var GitHubStrategy = require('passport-github2').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/users');
 var configAuth = require('./auth');
 
@@ -15,6 +16,21 @@ module.exports = function (passport) {
 		});
 	});
 
+		passport.use(new FacebookStrategy({
+		clientID: process.env.FACEBOOK_APP_ID,
+		clientSecret: process.env.FACEBOOK_APP_SECRET,
+		callbackURL: "http://localhost:3000/auth/facebook/callback"
+	  },
+	  function(accessToken, refreshToken, profile, cb) {
+		User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+		  return cb(err, user);
+		});
+	  }
+	));
+	
+	
+	
+	
 	passport.use(new GitHubStrategy({
 		clientID: configAuth.githubAuth.clientID,
 		clientSecret: configAuth.githubAuth.clientSecret,
