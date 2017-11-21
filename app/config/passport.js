@@ -32,7 +32,7 @@ module.exports = function (passport) {
 	
 	
 	passport.use(new GitHubStrategy({
-		clientID: configAuth.githubAuth.clientID,
+		clientID: process.env.GITHUB_KEY,
 		clientSecret: configAuth.githubAuth.clientSecret,
 		callbackURL: configAuth.githubAuth.callbackURL
 	},
