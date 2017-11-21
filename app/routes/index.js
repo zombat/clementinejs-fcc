@@ -46,10 +46,23 @@ module.exports = function (app, passport) {
 
 	app.route('/auth/github/callback')
 		.get(passport.authenticate('github', {
-			successRedirect: '/',
+			successRedirect: 'http://127.0.0.1/',
 			failureRedirect: '/login'
 		}));
 
+		
+	app.get('/auth/facebook', passport.authenticate('facebook'));		
+		
+	app.get('/auth/facebook/callback',
+		passport.authenticate('facebook', { successRedirect: 'https://rocky-spire-32681.herokuapp.com/',
+		failureRedirect: 'https://rocky-spire-32681.herokuapp.com/login' }));	
+		
+		
+		
+		
+		
+		
+		
 	app.route('/api/:id/clicks')
 		.get(isLoggedIn, clickHandler.getClicks)
 		.post(isLoggedIn, clickHandler.addClick)
